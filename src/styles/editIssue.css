@@ -1,0 +1,420 @@
+/* Edit Issue Page Styles - Modern Form Design */
+.edit-issue-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FDFAF6 0%, #E4EFE7 100%);
+  padding: 2rem 1rem;
+}
+
+.edit-issue-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  animation: slideInUp 0.6s ease-out;
+}
+
+.edit-issue-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.edit-issue-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #99BC85, #4a5568);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.edit-issue-subtitle {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+.edit-issue-form {
+  background: white;
+  border-radius: 2rem;
+  padding: 3rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E4EFE7;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-issue-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #99BC85, #E4EFE7);
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.form-label.required::after {
+  content: '*';
+  color: #ef4444;
+  margin-left: 0.25rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid #E4EFE7;
+  border-radius: 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #FDFAF6;
+  color: #374151;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #99BC85;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(153, 188, 133, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-textarea {
+  min-height: 150px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  padding-right: 3rem;
+  appearance: none;
+}
+
+.status-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.status-option {
+  position: relative;
+}
+
+.status-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.status-label {
+  display: block;
+  padding: 1rem;
+  border: 2px solid #E4EFE7;
+  border-radius: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #FDFAF6;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  transition: all 0.3s ease;
+}
+
+.status-radio:checked + .status-label {
+  border-color: #99BC85;
+  background: #99BC85;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(153, 188, 133, 0.3);
+}
+
+.status-open::before {
+  background: #10b981;
+}
+
+.status-in-progress::before {
+  background: #f59e0b;
+}
+
+.status-closed::before {
+  background: #6b7280;
+}
+
+.priority-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.priority-option {
+  position: relative;
+}
+
+.priority-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.priority-label {
+  display: block;
+  padding: 1rem;
+  border: 2px solid #E4EFE7;
+  border-radius: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #FDFAF6;
+  font-weight: 500;
+}
+
+.priority-radio:checked + .priority-label {
+  border-color: #99BC85;
+  background: #99BC85;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(153, 188, 133, 0.3);
+}
+
+.priority-low {
+  color: #059669;
+}
+
+.priority-medium {
+  color: #d97706;
+}
+
+.priority-high {
+  color: #dc2626;
+}
+
+.priority-radio:checked + .priority-label.priority-low,
+.priority-radio:checked + .priority-label.priority-medium,
+.priority-radio:checked + .priority-label.priority-high {
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #E4EFE7;
+}
+
+.btn-cancel {
+  padding: 1rem 2rem;
+  border: 2px solid #E4EFE7;
+  border-radius: 1rem;
+  background: transparent;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-cancel:hover {
+  border-color: #99BC85;
+  color: #99BC85;
+  transform: translateY(-1px);
+}
+
+.btn-save {
+  padding: 1rem 2rem;
+  background: #99BC85;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-save:hover {
+  background: #8BAA78;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(153, 188, 133, 0.3);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-save::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-save:hover::before {
+  opacity: 0.1;
+}
+
+.btn-delete {
+  padding: 1rem 2rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+}
+
+.form-error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-help-text {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #059669;
+  margin-top: 1rem;
+}
+
+.unsaved-changes {
+  color: #d97706;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  color: #99BC85;
+  background: #f9fafb;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state */
+.form-loading .form-input,
+.form-loading .form-textarea,
+.form-loading .form-select {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 0.5rem;
+  height: 1rem;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-issue-form {
+    padding: 2rem;
+    border-radius: 1.5rem;
+  }
+  
+  .edit-issue-title {
+    font-size: 2rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .status-group,
+  .priority-group {
+    grid-template-columns: 1fr;
+  }
+}
