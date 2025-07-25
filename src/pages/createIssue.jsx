@@ -1,16 +1,43 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 import '../styles/createIssue.css';
 
 
 function CreateIssue() {
   const [issue, setIssue] = useState({ title: "", description: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { token } = useAuth();
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/api/issues", issue).then(() => navigate("/"));
+    setLoading(true);
+    setError('');
+
+    try {
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const res = await axios.post("http://localhost:5000/api/issues", issue, config);
+      
+      if (res.data.success) {
+        navigate("/");
+      } else {
+        setError('Failed to create issue');
+      }
+    } catch (err) {
+      console.error('Error creating issue:', err);
+      setError(err.response?.data?.message || 'Failed to create issue');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,6 +47,12 @@ function CreateIssue() {
           <h1 className="create-issue-title">Create New Issue</h1>
           <p className="create-issue-subtitle">Describe the issue you'd like to track</p>
         </div>
+        
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="create-issue-form">
           <div className="form-group">
@@ -43,11 +76,11 @@ function CreateIssue() {
           </div>
           
           <div className="form-actions">
-            <button type="button" className="btn-cancel" onClick={() => navigate('/')}>
+            <button type="button" className="btn-cancel" onClick={() => navigate('/')} disabled={loading}>
               Cancel
             </button>
-            <button type="submit" className="btn-submit">
-              Create Issue
+            <button type="submit" className={`btn-submit ${loading ? 'loading' : ''}`} disabled={loading}>
+              {loading ? 'Creating...' : 'Create Issue'}
             </button>
           </div>
         </form>

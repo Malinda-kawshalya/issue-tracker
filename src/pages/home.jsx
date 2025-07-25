@@ -1,17 +1,65 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 import '../styles/home.css';
 
 
 function Home() {
   const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const { token } = useAuth();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/issues").then(res => {
-      setIssues(res.data);
-    });
-  }, []);
+    const fetchIssues = async () => {
+      try {
+        setLoading(true);
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+        
+        const res = await axios.get("http://localhost:5000/api/issues", config);
+        
+        // Handle the new API response format
+        if (res.data.success && res.data.data) {
+          setIssues(res.data.data);
+        } else {
+          setIssues([]);
+        }
+      } catch (err) {
+        console.error('Error fetching issues:', err);
+        setError('Failed to load issues');
+        setIssues([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchIssues();
+    }
+  }, [token]);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading issues...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
 
   return (
     <div className="home-container">
