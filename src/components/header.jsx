@@ -43,6 +43,12 @@ function Header() {
               >
                 Create Issue
               </Link>
+              <Link 
+                to="/profile" 
+                className={`nav-link ${isActive('/profile') ? 'nav-link-active' : ''}`}
+              >
+                Profile
+              </Link>
             </nav>
           )}
 

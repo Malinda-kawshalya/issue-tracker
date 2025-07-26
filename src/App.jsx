@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import CreateIssue from "./pages/CreateIssue";
 import IssueDetails from "./pages/issueDetails";
 import EditIssue from "./pages/editissue";
+import Profile from "./pages/profile";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Header from "./components/header";
@@ -42,6 +43,11 @@ function App() {
               <Route path="/edit/:id" element={
                 <ProtectedRoute>
                   <EditIssue />
+                </ProtectedRoute>
+              } />
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               } />
             </Routes>

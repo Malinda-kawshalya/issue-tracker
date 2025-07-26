@@ -91,11 +91,95 @@ function EditIssue() {
   }
 
   return (
-    <form onSubmit={handleUpdate}>
-      <input value={issue.title} onChange={e => setIssue({ ...issue, title: e.target.value })} />
-      <textarea value={issue.description} onChange={e => setIssue({ ...issue, description: e.target.value })}></textarea>
-      <button>Update</button>
-    </form>
+    <div className="edit-issue-container">
+      <div className="edit-issue-wrapper">
+        <div className="edit-issue-header">
+          <h1 className="edit-issue-title">Edit Issue</h1>
+          <p className="edit-issue-subtitle">Update the issue details</p>
+        </div>
+        
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleUpdate} className="edit-issue-form">
+          <div className="form-group">
+            <label className="form-label required">Title</label>
+            <input 
+              type="text"
+              placeholder="Enter issue title" 
+              className="form-input"
+              value={issue.title || ""}
+              onChange={e => setIssue({ ...issue, title: e.target.value })} 
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">Description</label>
+            <textarea 
+              placeholder="Describe the issue in detail..." 
+              className="form-input form-textarea"
+              value={issue.description || ""}
+              onChange={e => setIssue({ ...issue, description: e.target.value })}
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Priority</label>
+              <select 
+                className="form-input form-select"
+                value={issue.priority || "Low"}
+                onChange={e => setIssue({ ...issue, priority: e.target.value })}
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Urgent">Urgent</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Status</label>
+              <select 
+                className="form-input form-select"
+                value={issue.status || "Open"}
+                onChange={e => setIssue({ ...issue, status: e.target.value })}
+              >
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Assignee</label>
+            <input 
+              type="text"
+              placeholder="Enter assignee name (optional)" 
+              className="form-input"
+              value={issue.assignee || ""}
+              onChange={e => setIssue({ ...issue, assignee: e.target.value })}
+            />
+          </div>
+          
+          <div className="form-actions">
+            <button type="button" className="btn-cancel" onClick={() => navigate(`/issue/${id}`)} disabled={updating}>
+              Cancel
+            </button>
+            <button type="submit" className={`btn-submit ${updating ? 'loading' : ''}`} disabled={updating}>
+              {updating ? 'Updating...' : 'Update Issue'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

@@ -93,18 +93,24 @@ function Home() {
                     >
                       {issue.title}
                     </Link>
-                    <span className={`status-badge ${
-                      issue.status === 'open' ? 'status-open' :
-                      issue.status === 'in-progress' ? 'status-in-progress' :
-                      'status-closed'
-                    }`}>
+                    <span className={`status-badge status-${issue.status.toLowerCase().replace(' ', '-')}`}>
                       {issue.status}
                     </span>
                   </div>
+                  
+                  <div className="issue-author">
+                    <span className="author-label">Created by:</span>
+                    <span className="author-name">{issue.author?.name || 'Unknown User'}</span>
+                  </div>
+                  
                   {issue.description && (
                     <p className="issue-description">{issue.description}</p>
                   )}
+                  
                   <div className="issue-meta">
+                    <span className="issue-priority priority-${issue.priority.toLowerCase()}">
+                      {issue.priority} Priority
+                    </span>
                     <span className="issue-date">
                       {new Date(issue.createdAt).toLocaleDateString()}
                     </span>

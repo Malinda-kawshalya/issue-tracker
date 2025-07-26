@@ -6,7 +6,13 @@ import '../styles/createIssue.css';
 
 
 function CreateIssue() {
-  const [issue, setIssue] = useState({ title: "", description: "" });
+  const [issue, setIssue] = useState({ 
+    title: "", 
+    description: "",
+    priority: "Low",
+    status: "Open",
+    assignee: ""
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -61,6 +67,7 @@ function CreateIssue() {
               type="text"
               placeholder="Enter issue title" 
               className="form-input"
+              value={issue.title}
               onChange={e => setIssue({ ...issue, title: e.target.value })} 
               required
             />
@@ -71,8 +78,51 @@ function CreateIssue() {
             <textarea 
               placeholder="Describe the issue in detail..." 
               className="form-input form-textarea"
+              value={issue.description}
               onChange={e => setIssue({ ...issue, description: e.target.value })}
+              rows="4"
             ></textarea>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Priority</label>
+              <select 
+                className="form-input form-select"
+                value={issue.priority}
+                onChange={e => setIssue({ ...issue, priority: e.target.value })}
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Urgent">Urgent</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Status</label>
+              <select 
+                className="form-input form-select"
+                value={issue.status}
+                onChange={e => setIssue({ ...issue, status: e.target.value })}
+              >
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Assignee</label>
+            <input 
+              type="text"
+              placeholder="Enter assignee name (optional)" 
+              className="form-input"
+              value={issue.assignee}
+              onChange={e => setIssue({ ...issue, assignee: e.target.value })}
+            />
           </div>
           
           <div className="form-actions">
