@@ -123,7 +123,15 @@ function IssueDetails() {
       <div className="container">
         <div className="issue-details-header">
           <Link to="/" className="back-link">← Back to Issues</Link>
-          <Link to={`/edit/${id}`} className="edit-button">Edit Issue</Link>
+          {/* Only show edit button if the current user is the author */}
+          {user && issue.author && (
+            user.id === issue.author._id || 
+            user._id === issue.author._id ||
+            user.id === issue.author.id ||
+            user._id === issue.author.id
+          ) && (
+            <Link to={`/edit/${id}`} className="edit-button">Edit Issue</Link>
+          )}
         </div>
 
         <div className="issue-details-card">

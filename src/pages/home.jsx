@@ -9,7 +9,7 @@ function Home() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -63,6 +63,11 @@ function Home() {
 
   return (
     <div className="home-container">
+      {/* Light ray effects */}
+      <div className="light-ray light-ray-1" style={{'--rotation': '25deg'}}></div>
+      <div className="light-ray light-ray-2" style={{'--rotation': '-15deg'}}></div>
+      <div className="light-ray light-ray-3" style={{'--rotation': '45deg'}}></div>
+      
       <div className="container">
         <div className="home-header">
           <div>
@@ -114,6 +119,24 @@ function Home() {
                     <span className="issue-date">
                       {new Date(issue.createdAt).toLocaleDateString()}
                     </span>
+                  </div>
+                  
+                  <div className="issue-actions">
+                    <div className="comment-info">
+                      <span className="comment-count">
+                        💬 {issue.commentCount || 0} comments
+                      </span>
+                    </div>
+                    <div className="action-buttons">
+                      <Link 
+                        to={`/issue/${issue._id}#comments`}
+                        className="comment-button"
+                        title="Add comment"
+                      >
+                        <span className="comment-icon">💬</span>
+                        Comment
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

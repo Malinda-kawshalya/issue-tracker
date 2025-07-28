@@ -4,13 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/profile.css';
 
 const Profile = () => {
-  const { user, token, logout } = useAuth();
+  const { user, token, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
     name: '',
     email: '',
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
+    profilePicture: ''
   });
   const [editData, setEditData] = useState({
     name: '',
@@ -33,6 +34,9 @@ const Profile = () => {
   const [issuesLoading, setIssuesLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState('');
+  const [uploadingPicture, setUploadingPicture] = useState(false);
 
   // Fetch user profile data from database
   useEffect(() => {
@@ -51,12 +55,16 @@ const Profile = () => {
             name: data.data.name || '',
             email: data.data.email || '',
             createdAt: data.data.createdAt || '',
-            updatedAt: data.data.updatedAt || ''
+            updatedAt: data.data.updatedAt || '',
+            profilePicture: data.data.profilePicture || ''
           });
           setEditData({
             name: data.data.name || '',
             email: data.data.email || ''
           });
+          if (data.data.profilePicture) {
+            setProfilePicturePreview(`http://localhost:5000${data.data.profilePicture}`);
+          }
         } else {
           setError('Failed to fetch profile data');
         }
@@ -148,6 +156,82 @@ const Profile = () => {
     }
   };
 
+  // Handle profile picture file selection
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select a valid image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Image file size should be less than 5MB');
+        return;
+      }
+      
+      setProfilePicture(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfilePicturePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      
+      setError('');
+    }
+  };
+
+  // Upload profile picture
+  const handleUploadProfilePicture = async () => {
+    if (!profilePicture) {
+      setError('Please select an image first');
+      return;
+    }
+
+    setUploadingPicture(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const formData = new FormData();
+      formData.append('profilePicture', profilePicture);
+
+      const response = await fetch('http://localhost:5000/api/auth/upload-profile-picture', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess('Profile picture uploaded successfully!');
+        setProfileData(prev => ({
+          ...prev,
+          profilePicture: data.data.profilePicture
+        }));
+        setProfilePicture(null);
+        // Update preview with server URL
+        setProfilePicturePreview(`http://localhost:5000${data.data.profilePicture}`);
+        // Update user context to reflect in header
+        updateUser({ profilePicture: data.data.profilePicture });
+      } else {
+        setError(data.message || 'Failed to upload profile picture');
+      }
+    } catch (error) {
+      setError('Failed to upload profile picture');
+      console.error('Profile picture upload error:', error);
+    } finally {
+      setUploadingPicture(false);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditData(prev => ({
@@ -226,8 +310,39 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-header">
         <h1>My Profile</h1>
-        <div className="profile-avatar">
-          <span>{profileData.name.charAt(0).toUpperCase()}</span>
+        <div className="profile-avatar-section">
+          <div className="profile-avatar">
+            {profilePicturePreview || profileData.profilePicture ? (
+              <img 
+                src={profilePicturePreview || `http://localhost:5000${profileData.profilePicture}`} 
+                alt="Profile" 
+                className="avatar-image"
+              />
+            ) : (
+              <span>{profileData.name.charAt(0).toUpperCase()}</span>
+            )}
+          </div>
+          <div className="avatar-upload">
+            <input
+              type="file"
+              id="profilePictureInput"
+              accept="image/*"
+              onChange={handleProfilePictureChange}
+              style={{ display: 'none' }}
+            />
+            <label htmlFor="profilePictureInput" className="upload-btn">
+              📷 Change Photo
+            </label>
+            {profilePicture && (
+              <button 
+                onClick={handleUploadProfilePicture}
+                disabled={uploadingPicture}
+                className="save-photo-btn"
+              >
+                {uploadingPicture ? 'Uploading...' : 'Save Photo'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

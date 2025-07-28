@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import '../styles/globals.css';
+import logo from '../assets/logo.png';
 
 function Header() {
   const location = useLocation();
@@ -23,7 +24,7 @@ function Header() {
           {/* Logo/Brand */}
           <Link to="/" className="brand">
             <div className="brand-icon">
-              <span>IT</span>
+              <img src={logo} alt="Issue Tracker Logo" className="brand-logo" />
             </div>
             <h1 className="brand-title">Issue Tracker</h1>
           </Link>
@@ -43,12 +44,6 @@ function Header() {
               >
                 Create Issue
               </Link>
-              <Link 
-                to="/profile" 
-                className={`nav-link ${isActive('/profile') ? 'nav-link-active' : ''}`}
-              >
-                Profile
-              </Link>
             </nav>
           )}
 
@@ -56,12 +51,20 @@ function Header() {
           <div className="user-actions">
             {isAuthenticated ? (
               <div className="user-menu">
-                <div className="user-info">
+                <Link to="/profile" className="user-info">
                   <div className="user-avatar">
-                    <span>{user?.name?.charAt(0).toUpperCase() || 'U'}</span>
+                    {user?.profilePicture ? (
+                      <img 
+                        src={`http://localhost:5000${user.profilePicture}`} 
+                        alt="Profile" 
+                        className="avatar-image"
+                      />
+                    ) : (
+                      <span>{user?.name?.charAt(0).toUpperCase() || 'U'}</span>
+                    )}
                   </div>
                   <span className="user-name">{user?.name}</span>
-                </div>
+                </Link>
                 <button onClick={handleLogout} className="logout-btn">
                   Logout
                 </button>

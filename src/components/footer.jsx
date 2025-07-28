@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import logo from '../assets/logo.png';
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,7 @@ function Footer() {
           <div className="footer-section">
             <div className="footer-brand">
               <div className="footer-brand-icon">
-                <span>IT</span>
+                <img src={logo} alt="Issue Tracker Logo" className="footer-brand-logo" />
               </div>
               <h3 className="footer-brand-title">Issue Tracker</h3>
             </div>
@@ -70,23 +71,7 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="footer-bottom">
-          <p className="footer-copyright">
-            © {currentYear} Issue Tracker. All rights reserved.
-          </p>
-          <div className="footer-legal">
-            <a href="#" className="footer-link">
-              Privacy Policy
-            </a>
-            <a href="#" className="footer-link">
-              Terms of Service
-            </a>
-            <a href="#" className="footer-link">
-              Cookie Policy
-            </a>
-          </div>
-        </div>
+
       </div>
     </footer>
   );

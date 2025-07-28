@@ -15,7 +15,8 @@ const AUTH_ACTIONS = {
   LOGOUT: 'LOGOUT',
   LOAD_USER: 'LOAD_USER',
   AUTH_ERROR: 'AUTH_ERROR',
-  SET_LOADING: 'SET_LOADING'
+  SET_LOADING: 'SET_LOADING',
+  UPDATE_USER: 'UPDATE_USER'
 };
 
 // Reducer
@@ -29,6 +30,11 @@ const authReducer = (state, action) => {
         token: action.payload.token,
         isAuthenticated: true,
         loading: false
+      };
+    case AUTH_ACTIONS.UPDATE_USER:
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload }
       };
     case AUTH_ACTIONS.LOGOUT:
     case AUTH_ACTIONS.AUTH_ERROR:
@@ -161,6 +167,17 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: AUTH_ACTIONS.LOGOUT });
   };
 
+  // Update user data
+  const updateUser = (userData) => {
+    dispatch({ 
+      type: AUTH_ACTIONS.UPDATE_USER, 
+      payload: userData 
+    });
+    // Update localStorage as well
+    const updatedUser = { ...state.user, ...userData };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   // Load user on component mount
   useEffect(() => {
     loadUser();
@@ -178,7 +195,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    loadUser
+    loadUser,
+    updateUser
   };
 
   return (

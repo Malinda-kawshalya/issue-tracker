@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import CreateIssue from "./pages/CreateIssue";
 import IssueDetails from "./pages/issueDetails";
 import EditIssue from "./pages/editissue";
